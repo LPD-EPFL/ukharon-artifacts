@@ -25,6 +25,7 @@ Simply run
 ```
 Find the generated information under `logs/herd_mu/latency_{put,get}/m4/logs/herd-client.txt`.
 The failover time is gathered in `logs/herd_mu/put_failover.txt`.
+> Note: Edit `herd_mu.sh` to increase the number of samples for failover.
 
 ## uKharon-KV
 Simply run
@@ -33,3 +34,4 @@ Simply run
 ```
 Find the generated information under `logs/herd_ukharon/latency_{get,put}_majority/m4/logs/herd-client.txt`.
 The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out}_cache.txt`.
+> Note: Edit `herd_ukharon.sh` to increase the number of samples for failover.
