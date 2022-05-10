@@ -19,7 +19,7 @@ RUN echo 'user ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/user
 # Tools required for kernel compilation
 RUN apt-get -y install build-essential libncurses-dev gawk flex bison openssl \
     libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev \
-    autoconf git
+    autoconf git wget
 
 # Build dependencies for kernel compilation
 RUN apt-get -y build-dep linux linux-signed
@@ -30,6 +30,7 @@ RUN apt-get -y install file unzip zip xz-utils git cmake \
 
 RUN mkdir /opt/kernel
 ADD ukharon_custom_kernel.tar /opt/kernel
+RUN cd /opt/kernel && wget http://archive.ubuntu.com/ubuntu/pool/main/l/linux/linux_5.4.0.orig.tar.gz
 RUN chown -R user:users /opt/kernel
 
 ADD entry.sh /entry.sh
