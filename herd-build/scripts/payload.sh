@@ -8,5 +8,5 @@ rm -rf payload.zip
 zip -r payload.zip binaries/ membership/
 zip -urj payload.zip scripts/deploy/*
 zip -urj payload.zip ../ukharon-build/scripts/deploy/*
-zip -urj payload.zip ../ukharon-build/ukharon/membership/build/bin/membership_acceptor
-zip -urj payload.zip ../ukharon-build/ukharon/membership/build/bin/membership_cache
+zip -urj payload.zip ../ukharon-build/binaries/membership_acceptor
+zip -urj payload.zip ../ukharon-build/binaries/membership_cache
