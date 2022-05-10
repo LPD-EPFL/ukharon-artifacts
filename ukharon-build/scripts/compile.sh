@@ -38,6 +38,11 @@ done
 ./build.py membership
 ./build.py demo
 
+cd membership/libgen
+./conanfile.py --build-locally
+cd ../../
+cp -r membership/libgen/build/lib ../binaries/libgen
+
 mkdir -p ../binaries/lib && cp crash-consensus/src/lib/release/*.so ../binaries/lib
 cp ../../mu-build/mu/crash-consensus/demo/using_conan_fully/build/bin/fifo ../binaries
 cp membership/build/bin/* ../binaries
