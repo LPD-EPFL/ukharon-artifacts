@@ -4,7 +4,7 @@ Mu requires setting its configuration file appropriately before building.
 The instructions below provide all necessary steps to build Mu.
 
 ## Preparation
-First, download Mu from its repository and set the timeouts for its failure detection to low values.
+First, download Mu from its repository and set the timeouts for its failure detection to low values by running
 ```sh
 scripts/prepare.sh
 ```
@@ -17,7 +17,7 @@ Check your core topology using `numactl -H`.
 For every socket in your machine you will have a line in the form:
 `node X cpus: ...` where X is the socket id (starting at zero).
 
-For example, in a dual socket 10 core/20 machine you get:
+For example, in a dual socket 10-core/20-hyperthread machine you get:
 node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38
 node 1 cpus: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39
 
@@ -54,10 +54,10 @@ static constexpr int heartbeatThreadBankB_ID = -1;
 static constexpr int followerThreadBankB_ID = -1;
 ```
 
-Set `BankA` and `BankAB` variables as follows:
-* `handoverThreadBankAB_ID` is a sibling to `consensusThreadBankA_ID`
-* `fileWatcherThreadBankAB_ID` is a sibling to `followerThreadBankA_ID`
-* `switcherThreadBankA_ID` is a sibling to `heartbeatThreadBankA_ID`
+Set `BankA` and `BankAB` variables such that:
+* `handoverThreadBankAB_ID` is a sibling of `consensusThreadBankA_ID`
+* `fileWatcherThreadBankAB_ID` is a sibling of `followerThreadBankA_ID`
+* `switcherThreadBankA_ID` is a sibling of `heartbeatThreadBankA_ID`
 
 For example, the machines used in the paper (described in section 7) have their RDMA adapter in NUMA node 0, and numactl returns `node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30`.
 For these machines, we use the following assignment:

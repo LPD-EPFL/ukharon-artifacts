@@ -8,7 +8,7 @@ By default, the environment to build the kernel utilizes Docker. Alternatively, 
 
 In the absense of Docker, simply `apt-get install` the dependencies mentioned in the `Dockerfile`, decompress `ukharon_custom_kernel.tar` to `/opt/kernel` and continue with the [Build the custom kernel](#build-the-custom-kernel) section.
 
-## Deploy the Docker container
+## Deploying the Docker container
 To setup the build environment, run the following
 ```sh
 ./build.sh
@@ -17,7 +17,7 @@ To setup the build environment, run the following
 ````
 You are now connected in the Docker container as root. Type `su user` to switch to a normal user.
 
-## Build the custom kernel
+## Building the custom kernel
 Everything necessary to build the custom kernel is stored at `/opt/kernel`.
 The build process simply and consist of a few steps:
 1. If running from docker, run `cd /app && cp -r /opt/kernel/* .`. Otherwise, go to the artifact directory with `cd /opt/kernel`.
@@ -41,7 +41,7 @@ linux-tools-5.4.0-74-custom_5.4.0-74.83+rtcore+heartbeat+nohzfull_amd64.deb
 9. Run `./extract.sh` to fetch the `ukharon_kernel_debs.tar`.
 10. Finally, run `./destroy.sh` to clean-up the docker image.
 
-## Fetch the .debs
+## Fetching the .debs
 Exit the docker container using `exit` twice.
 Then, run `./extract.sh` to store the .debs under the `debs` directory, and distribute them to the desired machines for installation.
 
