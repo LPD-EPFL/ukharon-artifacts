@@ -1,0 +1,145 @@
+diff --git a/herd/Makefile b/herd/Makefile
+index 84bccc4..f6a57a7 100644
+--- a/herd/Makefile
++++ b/herd/Makefile
+@@ -1,6 +1,6 @@
+ CFLAGS  := -O3 -Wall -Werror -Wno-unused-result -I ../libhrd/ -I ../mica/
+ LD      := gcc -O3
+-LDFLAGS := ${LDFLAGS} -libverbs -lrt -lpthread -lmemcached -lnuma
++LDFLAGS := ${LDFLAGS} -libverbs -lrt -lpthread -lmemcached -lnuma -lmembership
+ 
+ APPS    := main
+ 
+diff --git a/herd/main.c b/herd/main.c
+index e09fd43..d32dae6 100644
+--- a/herd/main.c
++++ b/herd/main.c
+@@ -2,6 +2,7 @@
+ #include <getopt.h>
+ #include "hrd.h"
+ #include "mica.h"
++#include "membership.h"
+ 
+ int main(int argc, char* argv[]) {
+   /* Use small queues to reduce cache pressure */
+@@ -116,6 +117,30 @@ int main(int argc, char* argv[]) {
+   param_arr = malloc(num_threads * sizeof(struct thread_params));
+   thread_arr = malloc(num_threads * sizeof(pthread_t));
+ 
++  int view = 0;
++#ifdef WITH_ACTIVE
++  if (is_client == 0) {
++    printf("Starting the membership service and looking for the active view\n");
++    start_membership_c();
++
++    while (true) {
++      activity_t ac = is_active(view);
++      if (ac.changed) {
++        view++;
++        continue;
++      }
++
++      if (!ac.active) {
++        continue;
++      }
++
++      break;
++    }
++
++    printf("The active view is %d\n", view);
++  }
++#endif
++
+   for (i = 0; i < num_threads; i++) {
+     param_arr[i].postlist = postlist;
+ 
+@@ -142,6 +167,7 @@ int main(int argc, char* argv[]) {
+       param_arr[i].base_port_index = base_port_index;
+       param_arr[i].num_server_ports = num_server_ports;
+       param_arr[i].num_client_ports = num_client_ports;
++      param_arr[i].view = view;
+       pthread_create(&thread_arr[i], NULL, run_worker, &param_arr[i]);
+     }
+   }
+diff --git a/herd/main.h b/herd/main.h
+index ffae359..48d8a71 100644
+--- a/herd/main.h
++++ b/herd/main.h
+@@ -28,8 +28,9 @@
+ 
+ /* Configuration options */
+ #define MAX_SERVER_PORTS 4
+-#define NUM_WORKERS 12
+-#define NUM_CLIENTS 70
++#define NUM_WORKERS 1
++#define NUM_CLIENTS 120
++#define WITH_ACTIVE
+ 
+ /* Performance options */
+ #define WINDOW_SIZE 32 /* Outstanding requests kept by each client */
+@@ -52,6 +53,7 @@ struct thread_params {
+   int num_client_ports;
+   int update_percentage;
+   int postlist;
++  int view;
+ };
+ 
+ void* run_master(void* arg);
+diff --git a/herd/worker.c b/herd/worker.c
+index 7036389..13f7676 100644
+--- a/herd/worker.c
++++ b/herd/worker.c
+@@ -1,6 +1,7 @@
+ #include "hrd.h"
+ #include "main.h"
+ #include "mica.h"
++#include "membership.h"
+ 
+ void* run_worker(void* arg) {
+   int i, ret;
+@@ -10,6 +11,10 @@ void* run_worker(void* arg) {
+   int base_port_index = params.base_port_index;
+   int postlist = params.postlist;
+ 
++#ifdef WITH_ACTIVE
++  int view = params.view;
++#endif
++
+   /*
+    * MICA-related checks. Note that @postlist is the largest batch size we
+    * feed into MICA. The average postlist per port in a dual-port NIC should
+@@ -121,11 +126,11 @@ void* run_worker(void* arg) {
+   assert(NUM_CLIENTS % num_server_ports == 0);
+ 
+   struct timespec start, end;
+-  clock_gettime(CLOCK_REALTIME, &start);
++  clock_gettime(CLOCK_MONOTONIC, &start);
+ 
+   while (1) {
+     if (unlikely(rolling_iter >= M_4)) {
+-      clock_gettime(CLOCK_REALTIME, &end);
++      clock_gettime(CLOCK_MONOTONIC, &end);
+       double seconds = (end.tv_sec - start.tv_sec) +
+                        (double)(end.tv_nsec - start.tv_nsec) / 1000000000;
+       printf(
+@@ -138,7 +143,7 @@ void* run_worker(void* arg) {
+       nb_tx_tot = 0;
+       nb_post_send = 0;
+ 
+-      clock_gettime(CLOCK_REALTIME, &start);
++      clock_gettime(CLOCK_MONOTONIC, &start);
+     }
+ 
+     /* Do a pass over requests from all clients */
+@@ -223,6 +228,10 @@ void* run_worker(void* arg) {
+ 
+     mica_batch_op(&kv, wr_i, op_ptr_arr, resp_arr);
+ 
++#ifdef WITH_ACTIVE
++    is_active(view);
++#endif
++
+     /*
+      * Fill in the computed @val_ptr's. For non-postlist mode, this loop
+      * must go from 0 to (@wr_i - 1) to follow the signaling logic.
+
