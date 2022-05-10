@@ -5,7 +5,15 @@ Copy the `herd-build/payload.zip` to the present directory.
 For example, if you run the experiments from your laptop, you will need to scp the payload from the deployment machine where you built the binaries.
 
 ## Original HERD
-Simply run
+First, ensure that hugepages are enabled, as the are [required](https://github.com/efficient/rdma_bench#required-settings) by HERD.
+In the deployment machines run the following command:
+```sh
+# `node0` refers to the first NUMA node. Make sure to adapt this to your setup.
+# Select the NUMA node closer to the RDMA NIC.
+echo 8192 | sudo tee /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
+```
+
+Them, simply run
 ```sh
 ./herd_stock.sh
 ```
