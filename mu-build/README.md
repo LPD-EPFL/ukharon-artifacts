@@ -54,10 +54,10 @@ static constexpr int heartbeatThreadBankB_ID = -1;
 static constexpr int followerThreadBankB_ID = -1;
 ```
 
-Set `BankA` and `BankAB` variables as follows:
-* `handoverThreadBankAB_ID` is a sibling to `consensusThreadBankA_ID`
-* `fileWatcherThreadBankAB_ID` is a sibling to `followerThreadBankA_ID`
-* `switcherThreadBankA_ID` is a sibling to `heartbeatThreadBankA_ID`
+Set `BankA` and `BankAB` variables such that:
+* `handoverThreadBankAB_ID` is a sibling of `consensusThreadBankA_ID`
+* `fileWatcherThreadBankAB_ID` is a sibling of `followerThreadBankA_ID`
+* `switcherThreadBankA_ID` is a sibling of `heartbeatThreadBankA_ID`
 
 For example, the machines used in the paper (described in section 7) have their RDMA adapter in NUMA node 0, and numactl returns `node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30`.
 For these machines, we use the following assignment:
