@@ -16,7 +16,7 @@ Configuring uKharon entails:
 * Setting the multicast groups.
 
 ### Core pinning
-uKharon uses the cores defined at the bottom of `ukharon/membership/src/default-config.hpp`. Follow the same guidelines as described in Mu. Since Mu and uKharon never co-exist, you can pin uKharon to the same cores as Mu.
+uKharon uses the cores defined at the bottom of `ukharon/membership/src/default-config.hpp`. Follow the same guidelines as described in [Mu's instructions](../mu-build#core-assignment). Since Mu and uKharon never co-exist, you can pin uKharon to the same cores as Mu.
 
 For example, in our setup we use:
 ```
