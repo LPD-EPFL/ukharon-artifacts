@@ -6,7 +6,7 @@ The custom kernel is pacakged in .deb files that can be easily installed on your
 ## Prerequisites:
 By default, the environment to build the kernel utilizes Docker. Alternatively, you can build the kernel in an existing Ubuntu 20.04 system that does not have Docker. 
 
-In the absense of Docker, simply `apt-get install` the dependencies mentioned in the `Dockerfile`, decompress `ukharon_custom_kernel.tar` to `/opt/kernel` and continue with the [Build the custom kernel](#build-the-custom-kernel) section.
+In the absense of Docker, simply `apt-get install` the dependencies mentioned in the `Dockerfile`, decompress `ukharon_custom_kernel.tar` to `/opt/kernel` and continue with the [Building the custom kernel](#building-the-custom-kernel) section.
 
 ## Deploying the Docker container
 To setup the build environment, run the following
