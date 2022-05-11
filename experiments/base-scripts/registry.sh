@@ -5,7 +5,8 @@ source "$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/co
 export HRD_REGISTRY_IP=$(machine2hostname $REGISTRY_MACHINE)
 export DORY_REGISTRY_IP=$(machine2hostname $REGISTRY_MACHINE)
 
-# TODO: Remove the `LD_LIBRARY_PATH=$LD_LIBRARY_PATH` from the two lines below
+# For maximum performance, do not print logging messages
+export SPDLOG_LEVEL=error
 
 UKHARON_RT_MODE=""
 if  uname -a | grep "rtcore+heartbeat+nohzfull" -q ; then
