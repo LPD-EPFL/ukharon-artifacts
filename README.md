@@ -24,6 +24,8 @@ We do not provide the scripts that generate the figures themselves.
 In this introductory section, we explain how to evaluate our artifacts using the live environment we provide.
 More precisely, the goal of this section is to let you access our cluster and run the experiments without having to configure or compile any artifacts.
 
+The instructions provided in this section are enough to reproduce all the experiments. Nevertheless, for brevity, the parameter space explored by the scripts has been reduced. Feel free to edit the scripts to explore more.
+
 ## Connecting to the cluster
 
 Our cluster is accessible through an ssh gateway. Connect to our gateway by running:
@@ -44,35 +46,42 @@ The binaries as well as the deployment scripts required to run the experiments w
 
 ### Reproducing Figure 3
 
+#### Running the experiment
+
 From the gateway, run:
 ```sh
-experiments/stress/stress.sh
+ukharon-artifacts/experiments/stress/stress.sh
 ```
-Find the generated information under logs/inactivity_maj*_net*_mem*/m4/logs/active-renewer.txt.
 
-> Note: Edit stress.sh to run various configurations.
+> Note: Edit stress.sh to run more/different configurations.
 
-**TODO: how to interpret the results**
+#### Interpreting the results
+
+Find the generated data under `ukharon-artifacts/experiments/stress/logs/inactivity_maj${LEASE_DURATION}_net${NETWORK_LOAD}_mem${MEMRATE}/m4/logs/active-renewer.txt`.
+
+For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample)/(number_of_samples - first_active_sample)`.
 
 ### Reproducing Figure 4
 
 #### Evaluating stock Herd
 From the gateway, run:
 ```sh
-experiments/herd/herd_stock.sh
+ukharon-artifacts/experiments/herd/herd_stock.sh
 ```
-Find the generated information under `experiments/herd/logs/stock_*/m1/logs/workers.txt`.
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_stock.sh` to run more configurations.
+
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p{**TODO FIX**}/m1/logs/workers.txt`.
 
 **TODO: how to interpret the results**
 
 #### Evaluating uKharon's overhead
 From the gateway, run:
 ```sh
-experiments/herd/herd_isactive.sh
+ukharon-artifacts/experiments/herd/herd_isactive.sh
 ```
-Find the generated information under `experiments/herd/logs/herd_isactive_*/m4/logs/workers.txt`.
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_isactive.sh` to run more configurations.
+
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/herd_isactive_*/m4/logs/workers.txt`.
 
 **TODO: how to interpret the results**
 
@@ -83,7 +92,7 @@ Find the generated information under `experiments/herd/logs/herd_isactive_*/m4/l
 #### Evaluating HERD
 From the gateway, run:
 ```sh
-experiments/kvstore/vanilla_herd.sh
+ukharon-artifacts/experiments/kvstore/vanilla_herd.sh
 ```
 Find the generated information under `experiments/kvstore/logs/vanilla_herd/latency_{put,get}/m4/logs/herd-client.txt`.
 
@@ -92,7 +101,7 @@ Find the generated information under `experiments/kvstore/logs/vanilla_herd/late
 #### Evaluating dynamic HERD 
 From the gateway, run:
 ```sh
-experiments/kvstore/dynamic_herd.sh
+ukharon-artifacts/experiments/kvstore/dynamic_herd.sh
 ```
 Find the generated information under `experiments/kvstore/logs/dynamic_herd/latency_{put,get}_majority/m4/logs/herd-client.txt`
 
@@ -101,7 +110,7 @@ Find the generated information under `experiments/kvstore/logs/dynamic_herd/late
 #### Evaluating HERD+Mu
 From the gateway, run:
 ```sh
-experiments/kvstore/herd_mu.sh
+ukharon-artifacts/experiments/kvstore/herd_mu.sh
 ```
 Find the generated information under `experiments/kvstore/logs/herd_mu/latency_{put,get}/m4/logs/herd-client.txt`.
 The failover time is gathered in `logs/herd_mu/put_failover.txt`.
@@ -112,7 +121,7 @@ The failover time is gathered in `logs/herd_mu/put_failover.txt`.
 #### Evaluating uKharon-KV
 From the gateway, run:
 ```sh
-experiments/kvstore/herd_ukharon.sh
+ukharon-artifacts/experiments/kvstore/herd_ukharon.sh
 ```
 Find the generated information under `experiments/kvstore/logs/herd_ukharon/latency_{get,put}_majority/m4/logs/herd-client.txt`.
 The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out}_cache.txt`.
@@ -123,6 +132,8 @@ The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out
 # Detailed instructions
 
 This section will guide you on how to build, configure, and run all experiments, **from scratch**, to reproduce the results presented in our submission.
+
+If you just want to run the full experiments on the environment we provide (without having to build or configure anything), simply edit the scripts provided in [Getting started](#getting-started) to explore a wider parameter space.
 
 Although we provide detailed instructions, building all dependencies and configuring the experimental machines can be tedious. As we do not expect you to have the hardware and permissions required to deploy our artifacts from scrath, we suggest you:
 * follow the instructions to build the artifacts (which do not require specific hardware),
