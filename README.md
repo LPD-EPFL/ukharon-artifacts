@@ -44,10 +44,18 @@ The binaries as well as the deployment scripts required to run the experiments w
 
 ### Reproducing Figure 3
 
+From the gateway, run:
+```sh
+experiments/stress/stress.sh
+```
+Find the generated information under logs/inactivity_maj*_net*_mem*/m4/logs/active-renewer.txt.
+
+> Note: Edit stress.sh to run various configurations.
+
 ### Reproducing Figure 4
 
 #### Evaluating stock Herd
-From the gateway, run 
+From the gateway, run:
 ```sh
 experiments/herd/herd_stock.sh
 ```
@@ -57,7 +65,7 @@ Find the generated information under `experiments/herd/logs/stock_*/m1/logs/work
 **TODO: how to interpret the results**
 
 #### Evaluating uKharon's overhead
-From the gateway, run 
+From the gateway, run:
 ```sh
 experiments/herd/herd_isactive.sh
 ```
