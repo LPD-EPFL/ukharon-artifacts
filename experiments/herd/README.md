@@ -24,5 +24,5 @@ Simply run
 ```sh
 ./herd_isactive.sh
 ```
-Find the generated information under `logs/stock_*/m4/logs/workers.txt`.
+Find the generated information under `logs/isactive_*/m4/logs/workers.txt`.
 The reduction in throughput is uKharon's overhead.
