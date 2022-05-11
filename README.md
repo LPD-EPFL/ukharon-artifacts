@@ -1,6 +1,60 @@
-# uKharon
+# Overview
 uKharon is a membership service for microsecond applications.
-This repository contains all the artifacts needed to run the experiments in the paper.
+
+This repository contains the artifacts and instructions needed to reproduce the experiments in the paper.
+More precisely, it contains:
+* Instructions on how to build and install the custom Linux kernel as well as the failure detection module.
+* Instructions on how to build the payloads for the different experiments.
+* Instructions on how to launch the experiments and obtain the results.
+
+After running the experiments, you should be able to get the numbers shown in:
+* Figure 3: Percentage of timely lease renewal depending on the lease duration, network load and memory load
+* Figure 4: Impact of uKharon on HERD's throughput
+* Table 2: Failover time upon various failures
+* Figure 5: Latency comparison of vanilla HERD, HERD+Mu and uKharon-KV
+
+Our artifacts can be evaluated on either your own hardware or on a live, pre-configured, environment we provide ssh access to.
+Importantly, our live environement is not meant to be used by multiple reviewers concurrently and thus requires (human) synchronization on your side
+
+# Getting started
+
+In this introduction section, we will assume that you decided to evaluate our artifacts by using our live environment.
+The goal of this section is to let you access our cluster and run the experiments there without having to configure nor compile any artifacts.
+
+## Connecting to the cluster
+
+Our cluster is accessible through an ssh gateway. Connect to our gateway by running:
+```bash
+ssh -p 2233 user@lpdquatro1.epfl.ch
+```
+
+When asked for a password, enter the password provided through HotCRP.
+
+The cluster is comprised of 8 pre-configured machines. You can access any of them by running:
+```bash
+ssh atc-node{1..8}
+```
+
+## Running experiments
+
+The binaries as well as the deployment scripts required to run the experiments were pre-uploaded to the gateway. If, for some reason, you do not trust the payloads, you can rebuild them on one of the cluster's machines by following the instructions in [the detailed instruction section](#detailed-instructions).
+
+### Reproducing Figure 3
+
+### Reproducing Figure 4
+
+### Reproducing Table 2
+
+### Reproducing Figure 5
+
+# Detailed instructions
+
+This section will guide you on how to build, configure, and run all experiments to reproduce the results presented in the paper.
+
+Although we provide detailed instructions, building all dependencies and configuring the experimental machines can be tedious. As we do not expect you to have the hardware and permissions required to deploy our artifcats from scrath, we suggest you:
+* follow the instructions to build the artifacts (which do not require specific hardware),
+* skip configuration steps,
+* upload and run the experiments from our provided gateway as explained in [Getting started](#getting-started)
 
 # Prerequisites
 The source code and all experiments were executed using Ubuntu 20.04. Different systems may work, but they have not been tested.
