@@ -19,10 +19,6 @@ if [ -z "$majority_cache" ]; then echo "Specify -c or -m"; exit 1; fi;
 
 echo "Running with deadbeat mode = $deadbeat_on and Majority/Cache mode = $majority_cache"
 
-
-UKHARON_SYNCKILLERMCGROUP=ff12:601b:ffff::1/0xc004
-
-
 #######################################
 if "$deadbeat_on" ; then
   heartbeat_str="deadbeat"
