@@ -18,6 +18,7 @@ Them, simply run
 ./herd_stock.sh
 ```
 Find the generated information under `logs/stock_*/m1/logs/workers.txt`.
+> Note: Edit `herd_stock.sh` to run various configurations.
 
 ## uKharon's overhead
 Simply run
@@ -26,3 +27,4 @@ Simply run
 ```
 Find the generated information under `logs/isactive_*/m4/logs/workers.txt`.
 The reduction in throughput is uKharon's overhead.
+> Note: Edit `herd_isactive.sh` to run various configurations.
