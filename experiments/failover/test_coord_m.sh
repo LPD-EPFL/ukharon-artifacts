@@ -36,16 +36,18 @@ ACCEPTOR1_ARGS="-p 1 -a 1 -a 2 -a 3 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROU
 ACCEPTOR2_ARGS="-p 2 -a 1 -a 2 -a 3 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROUP"
 ACCEPTOR3_ARGS="-p 3 -a 1 -a 2 -a 3 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROUP"
 
-MEMBER_ARGS="-p 5 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROU"
+MEMBER_ARGS="-p 5 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROUP"
 
 CACHE_ARGS="-p 4 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROUP"
 
 SYNCKILLER_ARGS="-m $UKHARON_SYNCKILLERMCGROUP"
 
 FAILOVER_ARGS="-p 6 -m $UKHARON_MCGROUP -k $UKHARON_KERNELMCGROUP -s $UKHARON_SYNCKILLERMCGROUP -w 1"
-clear_processes
 
-send_payload "$SCRIPT_DIR"/payload.zip
+# send_payload "$SCRIPT_DIR"/payload.zip
+reset_processes
+
+ssh -o LogLevel=QUIET -t $(machine2ssh $REGISTRY_MACHINE) "$ROOT_DIR/ukharon_experiment/$(machine2dir $REGISTRY_MACHINE)/memc.sh"
 
 # Acceptors
 ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor.sh binaries/membership_acceptor $ACCEPTOR1_ARGS $heartbeat"
@@ -59,7 +61,7 @@ fi
 
 # Member with sync-killer
 ssh -o LogLevel=QUIET -t $(machine2ssh machine3) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine3)/deployment/member.sh binaries/membership_member $MEMBER_ARGS $heartbeat"
-ssh -o LogLevel=QUIET -t $(machine2ssh machine3) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine3)/deployment/sync-killer.sh binaries/sync_killer $SYNCKILLER_ARGS"
+ssh -o LogLevel=QUIET -t $(machine2ssh machine3) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine3)/deployment/sync-killer.sh binaries/sync_killer member $SYNCKILLER_ARGS"
 
 # Failover test
 ssh -o LogLevel=QUIET -t $(machine2ssh machine4) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine4)/deployment/failover.sh binaries/test_${majority_cache}_coordinated_failures $FAILOVER_ARGS"
@@ -70,17 +72,15 @@ if [[ "$majority_cache" == "cache" ]] ; then
   ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh C4"
 fi
 
-sleep 100000
-
 sleep 2
 ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh A5"
 
 sleep 3
-ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh C6"
+ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh A6"
 
 sleep 5
 
-ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/sync-killer.sh binaries/sync_killer -m $UKHARON_SYNCKILLERMCGROUP"
+ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/sync-killer-emit.sh binaries/sync_killer -m $UKHARON_SYNCKILLERMCGROUP"
 
 
 gather_results "$SCRIPT_DIR"/logs/failover_app/latency_${majority_cache}_${heartbeat_str}
