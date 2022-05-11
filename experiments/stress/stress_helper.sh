@@ -71,7 +71,6 @@ sleep 5
 ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh A10"
 sleep 60
 ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine1)/deployment/acceptor-join.sh KP- 10"
-ssh -t delta1 "tmux send-keys -t herd KP- 10 ENTER"
 sleep 3
 
 gather_results "$SCRIPT_DIR"/logs/inactivity_maj${MAJDELTA}_net${NETWORK_LOAD}_mem${MEMORY_LOAD}
