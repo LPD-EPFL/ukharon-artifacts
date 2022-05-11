@@ -1,7 +1,7 @@
 # Overview
 uKharon is a membership service for microsecond applications.
 
-This repository contains the artifacts and instructions needed to reproduce the experiments in the ATC submission.
+This repository contains the artifacts and instructions needed to reproduce the experiments in uKharon's ATC paper.
 More precisely, it contains:
 * Instructions on how to build and install the custom Linux kernel as well as the failure detection module.
 * Instructions on how to build the payloads for the different experiments.
@@ -13,9 +13,9 @@ By running the experiments, you should be able to reproduce the numbers shown in
 * **Table 2**: Failover time upon various failures
 * **Figure 5**: Latency comparison of vanilla HERD, HERD+Mu and uKharon-KV
 
-Our artifacts can either be evaluated on your own hardware or on a live, pre-configured, environment we provide an ssh access to.
+Our artifacts can either be evaluated on your own hardware or on a live (pre-configured) environment we provide an ssh access to.
 
-**Importantly, our live environement is not meant to be used by multiple reviewers concurrently and thus requires (human) synchronization on your side.**
+**Importantly, our live environement is not meant to be used concurrently by multiple reviewers and thus requires (human) synchronization on your side.**
 
 We do not provide the scripts that generate the figures themselves. 
 
@@ -51,6 +51,8 @@ experiments/stress/stress.sh
 Find the generated information under logs/inactivity_maj*_net*_mem*/m4/logs/active-renewer.txt.
 
 > Note: Edit stress.sh to run various configurations.
+
+**TODO: how to interpret the results**
 
 ### Reproducing Figure 4
 
@@ -120,7 +122,7 @@ The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out
 
 # Detailed instructions
 
-This section will guide you on how to build, configure, and run all experiments **from scratch** to reproduce the results presented in our submission.
+This section will guide you on how to build, configure, and run all experiments, **from scratch**, to reproduce the results presented in our submission.
 
 Although we provide detailed instructions, building all dependencies and configuring the experimental machines can be tedious. As we do not expect you to have the hardware and permissions required to deploy our artifacts from scrath, we suggest you:
 * follow the instructions to build the artifacts (which do not require specific hardware),
@@ -172,17 +174,17 @@ pip3 install --upgrade pyyaml"<6.0,>=3.11" cmake-format black halo
 
 #### Mellanox OFED dependency
 
-Intstall the latest userspace OFED driver by running:
+Intstall the appropriate OFED driver by running:
 
 ```sh
 wget http://www.mellanox.com/downloads/ofed/MLNX_OFED-5.3-1.0.0.1/MLNX_OFED_LINUX-5.3-1.0.0.1-ubuntu20.04-x86_64.tgz
 tar xf MLNX_OFED_LINUX-5.3-1.0.0.1-ubuntu20.04-x86_64.tgz
-sudo ./mlnxofedinstall --without-fw-update --user-space-only
+sudo ./mlnxofedinstall
 ```
 
 ### Building the artifacts
 
-We assume that all machines have identical configuration, thus you need to:
+Assuming all the machines in your cluster have the same configuration, you need to:
 * build all the necessary binaries in one deployment machine,
 * package them and deploy them in all 8 machines.
 
