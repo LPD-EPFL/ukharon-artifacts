@@ -7,6 +7,12 @@ export DORY_REGISTRY_IP=$(machine2hostname $REGISTRY_MACHINE)
 
 # TODO: Remove the `LD_LIBRARY_PATH=$LD_LIBRARY_PATH` from the two lines below
 
+UKHARON_RT_MODE=""
+if  uname -a | grep "rtcore+heartbeat+nohzfull" -q ; then
+    UKHARON_RT_MODE="chrt -f 99"
+fi
+
+
 if [ "$UKHARON_HAVE_SUDO_ACCESS" = true ] ; then
     if [ "$UKHARON_SUDO_ASKS_PASS" = true ] ; then
         export SUDO_ASKPASS="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/pass.py
@@ -16,7 +22,7 @@ if [ "$UKHARON_HAVE_SUDO_ACCESS" = true ] ; then
         }
         
         UKHARON_CMD_PREFIX () {
-            echo "sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH -A -E chrt -f 99"
+            echo "sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH -A -E $UKHARON_RT_MODE"
         }
     else
         UKHARON_SUDO_PREFIX () {
@@ -24,7 +30,7 @@ if [ "$UKHARON_HAVE_SUDO_ACCESS" = true ] ; then
         }
 
         UKHARON_CMD_PREFIX () {
-            echo "sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E chrt -f 99"
+            echo "sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH -E $UKHARON_RT_MODE"
         }
     fi
 else
