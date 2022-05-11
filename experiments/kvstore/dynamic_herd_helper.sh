@@ -58,7 +58,7 @@ sleep 2
 
 sleep 60
 
-ssh -o LogLevel=QUIET -t $(machine2ssh machine4) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine4)/deployment/sync-killer.sh binaries/sync_killer -m $UKHARON_MCGROUP"
+ssh -o LogLevel=QUIET -t $(machine2ssh machine4) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine4)/deployment/sync-killer-emit.sh binaries/sync_killer -m $UKHARON_MCGROUP"
 sleep 2
 
 gather_results "$SCRIPT_DIR"/logs/dynamic_herd/latency_${operation}_${access}

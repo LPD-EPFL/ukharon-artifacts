@@ -71,7 +71,7 @@ else
   failover_str="_failover"
 fi
 
-ssh -o LogLevel=QUIET -t $(machine2ssh machine4) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine4)/deployment/sync-killer.sh binaries/sync_killer -m $UKHARON_MCGROUP"
+ssh -o LogLevel=QUIET -t $(machine2ssh machine4) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine4)/deployment/sync-killer-emit.sh binaries/sync_killer -m $UKHARON_MCGROUP"
 sleep 2
 
 gather_results "$SCRIPT_DIR"/logs/herd_ukharon/latency_${operation}_${access}${failover_str}
