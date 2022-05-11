@@ -83,7 +83,7 @@ static constexpr int followerThreadBankB_ID = -1;
 ## Compilation
 To compile, `gcc-7` is required. In Ubuntu 20.04 you can install it with:
 ```sh
-sudo apt install gcc-7
+sudo apt install gcc-7 g++-7
 ```
 
 To compile, simple run:
