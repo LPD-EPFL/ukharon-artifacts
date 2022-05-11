@@ -51,7 +51,7 @@ ssh -o LogLevel=QUIET -t $(machine2ssh machine1) "$ROOT_DIR/ukharon_experiment/$
 
 ssh -o LogLevel=QUIET -t $(machine2ssh machine5) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine5)/deployment/acceptor.sh binaries/membership_acceptor $ACCEPTOR2_ARGS"
 ssh -o LogLevel=QUIET -t $(machine2ssh machine6) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine6)/deployment/acceptor.sh binaries/membership_acceptor $ACCEPTOR3_ARGS"
-
+sleep 3
 
 # Member with sync-killer
 ssh -o LogLevel=QUIET -t $(machine2ssh machine3) "$ROOT_DIR/ukharon_experiment/$(machine2dir machine3)/deployment/member.sh binaries/membership_member $MEMBER_ARGS $heartbeat"
