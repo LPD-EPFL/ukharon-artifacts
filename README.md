@@ -43,13 +43,13 @@ We assume that all machines have identical configuration, thus you need to:
 * package them and deploy them in all 8 machines.
 
 The building process is long and complex. Follow the instructions in each one of the following sub-directories:
-* Compile and boot uKharon's kernel, as explained in `ukharon-kernel`.
-* Install the Mellanox's OFED driver (in the deployment machines), as explained in `ukharon-kernel-modules`.
-* Build Mu (in a deployment machine), as explained in `mu-build`.
-* Build uKharon (in a deployment machine), as explained in `ukharon-build`.
-* Build HERD (in a deployment machine), as explained in `herd-build`.
+* Compile and boot uKharon's kernel, as explained in [`ukharon-kernel`](ukharon-kernel/).
+* Install the Mellanox's OFED driver (in the deployment machines), as explained in [`ukharon-kernel-modules`](ukharon-kernel-modules/).
+* Build Mu (in a deployment machine), as explained in [`mu-build`](mu-build/).
+* Build uKharon (in a deployment machine), as explained in [`ukharon-build`](ukharon-build/).
+* Build HERD (in a deployment machine), as explained in [`herd-build`](herd-build/).
 
 Once you have finished with the above steps, the binaries will be packaged in `payload.zip` files.
 
 # How to deploy
-To deploy the various experiments, follow the instructions under `experiments`.
+To deploy the various experiments, follow the instructions under [`experiments`](experiments/).
