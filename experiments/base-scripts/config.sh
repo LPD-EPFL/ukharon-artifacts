@@ -2,24 +2,24 @@
 ROOT_DIR='~'
 
 # Set ssh names of the machines
-machine1=delta1
-machine2=delta2
-machine3=delta3
-machine4=delta4
-machine5=delta5
-machine6=delta6
-machine7=delta7
-machine8=delta8
+machine1=atc-node1
+machine2=atc-node2
+machine3=atc-node3
+machine4=atc-node4
+machine5=atc-node5
+machine6=atc-node6
+machine7=atc-node7
+machine8=atc-node8
 
 # Set fqdn names of the machines (use `hostname -f`)
-machine1hostname=dcldelta1.epfl.ch
-machine2hostname=dcldelta2.epfl.ch
-machine3hostname=dcldelta3.epfl.ch
-machine4hostname=dcldelta4.epfl.ch
-machine5hostname=lpdquatro1.epfl.ch
-machine6hostname=lpdquatro2.epfl.ch
-machine7hostname=lpdquatro3.epfl.ch
-machine8hostname=lpdquatro4.epfl.ch
+machine1hostname=atc-node1
+machine2hostname=atc-node2
+machine3hostname=atc-node3
+machine4hostname=atc-node4
+machine5hostname=atc-node5
+machine6hostname=atc-node6
+machine7hostname=atc-node7
+machine8hostname=atc-node8
 
 REGISTRY_MACHINE=machine1
 
@@ -27,7 +27,7 @@ UKHARON_MCGROUP=ff12:601b:ffff::1:ff28:cf2a/0xc004
 UKHARON_KERNELMCGROUP=ff12:401b:ffff::1/0xc004
 
 UKHARON_HAVE_SUDO_ACCESS=true
-UKHARON_SUDO_ASKS_PASS=true
+UKHARON_SUDO_ASKS_PASS=false
 UKHARON_SUDO_PASS=my_sudo_pass
 
 UKHARON_CPUNODEBIND=0
