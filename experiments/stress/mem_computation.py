@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -34,17 +35,17 @@ if __name__ == "__main__":
     cores = results.cores.split(",")
     for c in cores:
         if c != c.strip():
-            print("Parsing error in the cores")
+            print("Parsing error in the cores", file=sys.stderr)
             exit(1)
         
         try: 
             int(c)
         except ValueError:
-            print("Parsing error in the cores")
+            print("Parsing error in the cores", file=sys.stderr)
             exit(1)
     
     if results.count:
-        if results.number:
+        if results.number is not None:
             number = max(0, min(results.number, len(cores)))
             print(number)
         else:
