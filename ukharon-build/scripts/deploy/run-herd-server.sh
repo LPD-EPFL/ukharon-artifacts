@@ -9,5 +9,7 @@ source "$SCRIPT_DIR"/../registry.sh
 BIN_PATH=$1
 ARGS="${@:2}"
 
+unset SPDLOG_LEVEL
+
 echo "Starting herd-server process"
 $(UKHARON_CMD_PREFIX) numactl --cpunodebind=$UKHARON_CPUNODEBIND --membind=$UKHARON_CPUMEMBIND "$BIN_PATH" $ARGS
