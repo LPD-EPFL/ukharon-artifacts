@@ -57,6 +57,15 @@ Find the generated data under `ukharon-artifacts/experiments/stress/logs/inactiv
 
 For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample)/(number_of_samples - first_active_sample)`.
 
+The `MEMRATE` can be translated to a memory load according to the following table:
+
+| Memrate | Memory Load |
+|---------|-------------|
+| 3       | ~50%        |
+| 4       | ~65%        |
+| 5       | ~85%        |
+| 6       | ~100%       |
+
 ### Reproducing Figure 4
 
 #### Evaluating stock Herd
