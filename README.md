@@ -79,7 +79,7 @@ ukharon-artifacts/experiments/herd/herd_stock.sh
 
 Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p${BATCH_SIZE}/m1/logs/workers.txt`.
 
-Each worker reports its number of operations, which can be summed.
+Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
 
 #### Evaluating uKharon's overhead
 From the gateway, run:
@@ -88,9 +88,9 @@ ukharon-artifacts/experiments/herd/herd_isactive.sh
 ```
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_isactive.sh` to run more configurations.
 
-Find the generated data under `ukharon-artifacts/experiments/herd/logs/herd_isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
 
-Each worker reports its number of operations, which can be summed.
+Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
 
 ### Reproducing Table 2
 
