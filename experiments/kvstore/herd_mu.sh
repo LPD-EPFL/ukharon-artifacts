@@ -19,7 +19,7 @@ reset_processes
 # uKharon-KV failover without cache
 # The number of iterations is just a demo.
 # Run 1000 iterations for robust results
-for i in {1..5}; do
+for i in {1..1}; do
   ./herd_mu_helper.sh put --failover
   reset_processes
   grep "Time to switch (us)" logs/herd_mu/latency_put_failover/m4/logs/herd-client.txt >> logs/herd_mu/put_failover.txt
