@@ -13,4 +13,4 @@ sleep 3
 
 PID=$(tmux capture-pane -t ukharon:$WINDOW -pS -1000 | grep -Po "PID\\d+PID" | sed -r 's/^([^.]+).*$/\1/; s/^[^0-9]*([0-9]+).*$/\1/')
 
-tmux new-window -t "ukharon" -n "sync-killer" "stdbuf -o L -e L ./run-sync-killer.sh $BIN_PATH $ARGS -p $PID 2>&1 | tee ../logs/sync-killer.txt"
+tmux new-window -t "ukharon" -n "sync-killer" "stdbuf -o L -e L ./run-sync-killer.sh $BIN_PATH $ARGS -c 26 -p $PID 2>&1 | tee ../logs/sync-killer.txt"
