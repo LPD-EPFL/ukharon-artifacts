@@ -55,7 +55,7 @@ ukharon-artifacts/experiments/stress/stress.sh
 
 Find the generated data under `ukharon-artifacts/experiments/stress/logs/inactivity_maj${LEASE_DURATION}_net${NETWORK_LOAD}_mem${MEMRATE}/m4/logs/active-renewer.txt`.
 
-For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample)/(number_of_samples - first_active_sample)`.
+For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample + 1)/(number_of_samples - first_active_sample + 1)`.
 
 The `MEMRATE` can be translated to a memory load according to the following table:
 
