@@ -75,6 +75,14 @@ Set these variables with the information retrieved when building `ukharon-build`
 ---
 
 ```sh
+UKHARON_SYNCKILLERMCGROUP
+```
+Set this variable to another InfiniBand multicast group.
+It is used by the `sync_killer` to trigger `SIGKILL`s remotely and thus simulate coordinated failures.
+
+---
+
+```sh
 UKHARON_HAVE_SUDO_ACCESS
 UKHARON_SUDO_ASKS_PASS
 UKHARON_SUDO_PASS
