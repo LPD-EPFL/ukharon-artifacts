@@ -170,7 +170,7 @@ From the gateway, run:
 ukharon-artifacts/experiments/kvstore/herd_ukharon.sh
 ```
 Find the generated information under `ukharon-artifacts/experiments/kvstore/logs/herd_ukharon/latency_{get,put}_majority/m4/logs/herd-client.txt`.
-The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out}_cache.txt`.
+The failover time is gathered in `ukharon-artifacts/experiments/kvstore/logs/herd_ukharon/ukharonkv_failover_with{,out}_cache.txt`.
 > Note: Edit `herd_ukharon.sh` to increase the number of samples for failover.
 
 # Detailed instructions
