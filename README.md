@@ -66,6 +66,8 @@ The `MEMRATE` can be translated to a memory load according to the following tabl
 | 5       | ~85%        |
 | 6       | ~100%       |
 
+> Note: We estimated the memory load by running multiple `stress-ng` commands and crosscheckking the numbers with the [zsmith](https://zsmith.co/bandwidth.php) memory-bandwidth tool.
+
 ### Reproducing Figure 4
 
 #### Evaluating stock Herd
