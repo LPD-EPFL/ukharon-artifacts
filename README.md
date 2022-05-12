@@ -162,6 +162,8 @@ Find the generated information under `ukharon-artifacts/experiments/kvstore/logs
 The failover time is gathered in `ukharon-artifacts/experiments/kvstore/logs/herd_mu/put_failover.txt`.
 > Note: Edit `herd_mu.sh` to increase the number of samples for failover.
 
+> Note: In order to be as fair as possible with Mu, we aggressively lowered its failure detection threshold. This may cause oscillations/failures and you may have to re-run the test.
+
 #### Evaluating uKharon-KV
 From the gateway, run:
 ```sh
