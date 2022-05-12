@@ -55,7 +55,7 @@ ukharon-artifacts/experiments/stress/stress.sh
 
 Find the generated data under `ukharon-artifacts/experiments/stress/logs/inactivity_maj${LEASE_DURATION}_net${NETWORK_LOAD}_mem${MEMRATE}/m4/logs/active-renewer.txt`.
 
-For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample)/(number_of_samples - first_active_sample)`.
+For each (`LEASE_DURATION`, `NETWORK_LOAD`, `MEMRATE`), the inactivity rate is computed with the following formula: `inactivity_rate = (inactive_samples - first_active_sample + 1)/(number_of_samples - first_active_sample + 1)`.
 
 The `MEMRATE` can be translated to a memory load according to the following table:
 
@@ -79,7 +79,7 @@ ukharon-artifacts/experiments/herd/herd_stock.sh
 
 Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p${BATCH_SIZE}/m1/logs/workers.txt`.
 
-Each worker reports its number of operations, which can be summed.
+Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
 
 #### Evaluating uKharon's overhead
 From the gateway, run:
@@ -88,9 +88,9 @@ ukharon-artifacts/experiments/herd/herd_isactive.sh
 ```
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_isactive.sh` to run more configurations.
 
-Find the generated data under `ukharon-artifacts/experiments/herd/logs/herd_isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
 
-Each worker reports its number of operations, which can be summed.
+Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
 
 ### Reproducing Table 2
 
@@ -161,6 +161,8 @@ ukharon-artifacts/experiments/kvstore/herd_mu.sh
 Find the generated information under `ukharon-artifacts/experiments/kvstore/logs/herd_mu/latency_{put,get}/m4/logs/herd-client.txt`.
 The failover time is gathered in `ukharon-artifacts/experiments/kvstore/logs/herd_mu/put_failover.txt`.
 > Note: Edit `herd_mu.sh` to increase the number of samples for failover.
+
+> Note: In order to be as fair as possible with Mu, we aggressively lowered its failure detection threshold. This may cause oscillations/failures and you may have to re-run the test.
 
 #### Evaluating uKharon-KV
 From the gateway, run:
