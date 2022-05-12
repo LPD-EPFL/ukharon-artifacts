@@ -24,7 +24,7 @@ We do not provide the scripts that generate the figures themselves.
 In this introductory section, we explain how to evaluate our artifacts using the live environment we provide.
 More precisely, the goal of this section is to let you access our cluster and run the experiments without having to configure or compile any artifacts.
 
-The instructions provided in this section are enough to reproduce all the experiments. Nevertheless, for brevity, the parameter space explored by the scripts has been reduced. Feel free to edit the scripts to explore more.
+The instructions provided in this section are enough to reproduce all the experiments. Nevertheless, for brevity, the parameter space explored by the scripts has been reduced drastically so that each experiment runs in a few minutes. Feel free to edit the scripts to explore more and reproduce all the results.
 
 ## Connecting to the cluster
 
@@ -46,16 +46,12 @@ The binaries as well as the deployment scripts required to run the experiments w
 
 ### Reproducing Figure 3
 
-#### Running the experiment
-
 From the gateway, run:
 ```sh
 ukharon-artifacts/experiments/stress/stress.sh
 ```
 
 > Note: Edit stress.sh to run more/different configurations.
-
-#### Interpreting the results
 
 Find the generated data under `ukharon-artifacts/experiments/stress/logs/inactivity_maj${LEASE_DURATION}_net${NETWORK_LOAD}_mem${MEMRATE}/m4/logs/active-renewer.txt`.
 
@@ -70,9 +66,9 @@ ukharon-artifacts/experiments/herd/herd_stock.sh
 ```
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_stock.sh` to run more configurations.
 
-Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p{**TODO FIX**}/m1/logs/workers.txt`.
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p${BATCH_SIZE}/m1/logs/workers.txt`.
 
-**TODO: how to interpret the results**
+Each worker reports its number of operations, which can be summed.
 
 #### Evaluating uKharon's overhead
 From the gateway, run:
@@ -81,11 +77,54 @@ ukharon-artifacts/experiments/herd/herd_isactive.sh
 ```
 > Note: Running the full experiments takes ~2h. By default, only a subset of the parameter space is evaluated. Edit `herd_isactive.sh` to run more configurations.
 
-Find the generated data under `ukharon-artifacts/experiments/herd/logs/herd_isactive_*/m4/logs/workers.txt`.
+Find the generated data under `ukharon-artifacts/experiments/herd/logs/herd_isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
 
-**TODO: how to interpret the results**
+Each worker reports its number of operations, which can be summed.
 
 ### Reproducing Table 2
+
+The live environment we provide is slightly different from the one we used to run the evaluation in our paper.
+Notably, the cluster we provide is not perfectly symmetrical (i.e., only half of the machines are booted with the custom kernel), resulting in increased variance in failover evaluation.
+You should thus expect slightly degraded results (i.e., higher failover times).
+
+> Note: For brevity, the scripts run only 1 iteration. Edit them for better results.
+
+#### First column
+
+From the gateway, run:
+```sh
+ukharon-artifacts/experiments/failover/failover_app.sh
+```
+
+Find the generated data under `ukharon-artifacts/experiments/failover/logs/failover_app/latency_{maj,cache}_{no,}deadbeat.txt`.
+The number you are interested in is `s->a`, which measures the time difference between when the *kill **S**ignal* is sent over the network and the new membership becomes **A**ctive.
+
+#### Second column
+
+From the gateway, run:
+```sh
+ukharon-artifacts/experiments/failover/failover_app_coord.sh
+```
+
+Find the generated data under `ukharon-artifacts/experiments/failover/logs/failover_app_coord/latency_{maj,cache}_{no,}deadbeat.txt`.
+
+#### Third column
+
+From the gateway, run:
+```sh
+ukharon-artifacts/experiments/failover/failover_app_leasecache.sh
+```
+
+Find the generated data under `ukharon-artifacts/experiments/failover/logs/failover_app_leasecache/latency_{no,}deadbeat.txt`.
+
+#### Fourth column
+
+From the gateway, run:
+```sh
+ukharon-artifacts/experiments/failover/failover_app_leasecache_coord.sh
+```
+
+Find the generated data under `ukharon-artifacts/experiments/failover/logs/failover_app_leasecache_coord/latency_{no,}deadbeat.txt`.
 
 ### Reproducing Figure 5
 
@@ -94,46 +133,38 @@ From the gateway, run:
 ```sh
 ukharon-artifacts/experiments/kvstore/vanilla_herd.sh
 ```
-Find the generated information under `experiments/kvstore/logs/vanilla_herd/latency_{put,get}/m4/logs/herd-client.txt`.
-
-**TODO: how to interpret the results**
+Find the generated data under `ukharon-artifacts/experiments/kvstore/logs/vanilla_herd/latency_{put,get}/m4/logs/herd-client.txt`.
 
 #### Evaluating dynamic HERD 
 From the gateway, run:
 ```sh
 ukharon-artifacts/experiments/kvstore/dynamic_herd.sh
 ```
-Find the generated information under `experiments/kvstore/logs/dynamic_herd/latency_{put,get}_majority/m4/logs/herd-client.txt`
-
-**TODO: how to interpret the results**
+Find the generated data under `ukharon-artifacts/experiments/kvstore/logs/dynamic_herd/latency_{put,get}_majority/m4/logs/herd-client.txt`.
 
 #### Evaluating HERD+Mu
 From the gateway, run:
 ```sh
 ukharon-artifacts/experiments/kvstore/herd_mu.sh
 ```
-Find the generated information under `experiments/kvstore/logs/herd_mu/latency_{put,get}/m4/logs/herd-client.txt`.
-The failover time is gathered in `logs/herd_mu/put_failover.txt`.
-> Note: Edit `experiments/kvstore/herd_mu.sh` to increase the number of samples for failover.
-
-**TODO: how to interpret the results**
+Find the generated information under `ukharon-artifacts/experiments/kvstore/logs/herd_mu/latency_{put,get}/m4/logs/herd-client.txt`.
+The failover time is gathered in `ukharon-artifacts/experiments/kvstore/logs/herd_mu/put_failover.txt`.
+> Note: Edit `herd_mu.sh` to increase the number of samples for failover.
 
 #### Evaluating uKharon-KV
 From the gateway, run:
 ```sh
 ukharon-artifacts/experiments/kvstore/herd_ukharon.sh
 ```
-Find the generated information under `experiments/kvstore/logs/herd_ukharon/latency_{get,put}_majority/m4/logs/herd-client.txt`.
+Find the generated information under `ukharon-artifacts/experiments/kvstore/logs/herd_ukharon/latency_{get,put}_majority/m4/logs/herd-client.txt`.
 The failover time is gathered in `logs/herd_ukharon/ukharonkv_failover_with{,out}_cache.txt`.
 > Note: Edit `herd_ukharon.sh` to increase the number of samples for failover.
-
-**TODO: how to interpret the results**
 
 # Detailed instructions
 
 This section will guide you on how to build, configure, and run all experiments, **from scratch**, to reproduce the results presented in our submission.
 
-If you just want to run the full experiments on the environment we provide (without having to build or configure anything), simply edit the scripts provided in [Getting started](#getting-started) to explore a wider parameter space.
+If you just want to run the full experiments on the environment we provide (without having to build or configure anything), simply edit the scripts provided in [Getting started](#getting-started) to explore the full parameter space.
 
 Although we provide detailed instructions, building all dependencies and configuring the experimental machines can be tedious. As we do not expect you to have the hardware and permissions required to deploy our artifacts from scrath, we suggest you:
 * follow the instructions to build the artifacts (which do not require specific hardware),
@@ -149,6 +180,14 @@ If you decide not to use our live environment, running (all) experiments require
 * all machines to have FQDNs (further instructions on this matter will be given when needed),
 * all machines having the following ports open: 7000-7100, 11211, 18515.
 
+### Dependencies
+
+Prepare the machines on your cluster by installing the following dependencies:
+```sh
+apt install -y sudo coreutils util-linux gawk python3 zip tmux gcc numactl stress-ng memcached
+apt install -y perftest # only if Mellanox OFED is not installed (see below).
+```
+
 ## Generating the artifacts
 
 The artifcats can either be built on your own deployment machine or directly on the provided cluster. The latter already meets all dependencies and lets you jump to [Building the artifacts](#building-the-artifacts).
@@ -160,32 +199,18 @@ Install the required dependency on a vanilla Ubuntu 20.04 installation by runnin
 ```sh
 sudo apt-get -y install \
     python3 python3-pip \
-    build-essential cmake ninja-build \
-    libibverbs-dev memcached libmemcached-dev 
+    gawk build-essential cmake ninja-build \
+    libmemcached-dev \
+    libibverbs-dev # only if Mellanox OFED is not installed (see below).
+
+sudo apt-get -y install libnuma-dev # only required to build HERD
 
 pip3 install --upgrade "conan>=1.47.0"
-
-# halo: Required by conan/invoker/invoker.py to show the compilation output compactly
-pip3 install --upgrade pyyaml"<6.0,>=3.11" halo
-```
-
-Optionally (to use other functionalities of the build system, e.g., code formatting), you can also install:
-```sh
-apt-get -y install clang-10 lld-10 clang-format-10 clang-tidy-10 clang-tools-10
-
-# Fix the LLD path
-# (If we install `lld` instead of `lld-10`, the following command is not needed)
-sudo update-alternatives --install "/usr/bin/ld.lld" "ld.lld" "/usr/bin/ld.lld-10" 20
-
-# pyyaml: Required from clang-tidy
-# cmake-format: Required by format.sh
-# black: Required by format.sh
-pip3 install --upgrade pyyaml"<6.0,>=3.11" cmake-format black halo
 ```
 
 #### Mellanox OFED dependency
 
-Intstall the appropriate OFED driver by running:
+Install the appropriate OFED driver by running:
 
 ```sh
 wget http://www.mellanox.com/downloads/ofed/MLNX_OFED-5.3-1.0.0.1/MLNX_OFED_LINUX-5.3-1.0.0.1-ubuntu20.04-x86_64.tgz
