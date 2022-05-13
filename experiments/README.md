@@ -109,7 +109,8 @@ UKHARON_MEMSTRESS_CORES
 These are the cores (in the deployment machines) that are used by `stress-ng` for memory stressing. These cores must not interfer with the cores selected in `ukharon-build`.
 
 ## Running the experiments
-* To run the experiment of figure 3, go to the `stress` directory
-* To run the experiment of figure 4, go to the `herd` directory
-* To run the experiment of figure 5, go to the `kvstore` directory
+* To run the experiment of figure 3, go to the [`stress`](stress/) directory
+* To run the experiment of figure 4, go to the [`herd`](herd/) directory
+* To run the experiment of table 2, go to the [`failover`](failover/) directory
+* To run the experiment of figure 5, go to the [`kvstore`](kvstore/) directory
 

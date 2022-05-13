@@ -79,7 +79,7 @@ ukharon-artifacts/experiments/herd/herd_stock.sh
 
 Find the generated data under `ukharon-artifacts/experiments/herd/logs/stock_w${WORKERS}_p${BATCH_SIZE}/m1/logs/workers.txt`.
 
-Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
+Each worker reports its average throughput. Each bar in the figure is the average of the throughput accross workers.
 
 #### Evaluating uKharon's overhead
 From the gateway, run:
@@ -90,7 +90,7 @@ ukharon-artifacts/experiments/herd/herd_isactive.sh
 
 Find the generated data under `ukharon-artifacts/experiments/herd/logs/isactive_w${WORKERS}_p${BATCH_SIZE}/m4/logs/workers.txt`.
 
-Each worker reports its average throughput. Each bar in the figure is the average of the througput accross workers.
+Each worker reports its average throughput. Each bar in the figure is the average of the throuhgput accross workers.
 
 ### Reproducing Table 2
 
@@ -239,10 +239,10 @@ Assuming all the machines in your cluster have the same configuration, you need 
 
 The building process is long and complex. Follow the instructions in each one of the following sub-directories:
 * Compile and boot uKharon's kernel, as explained in [`ukharon-kernel`](ukharon-kernel/).
-* Install the Mellanox's OFED driver (in the deployment machines), as explained in [`ukharon-kernel-modules`](ukharon-kernel-modules/).
-* Build Mu (in a deployment machine), as explained in [`mu-build`](mu-build/).
-* Build uKharon (in a deployment machine), as explained in [`ukharon-build`](ukharon-build/).
-* Build HERD (in a deployment machine), as explained in [`herd-build`](herd-build/).
+* Install the failure detection kernel modules (on the deployment machines), as explained in [`ukharon-kernel-modules`](ukharon-kernel-modules/).
+* Build Mu (on a deployment machine), as explained in [`mu-build`](mu-build/).
+* Build uKharon (on a deployment machine), as explained in [`ukharon-build`](ukharon-build/).
+* Build HERD (on a deployment machine), as explained in [`herd-build`](herd-build/).
 
 Once you have finished with the above steps, the binaries will be packaged in `payload.zip` files.
 
