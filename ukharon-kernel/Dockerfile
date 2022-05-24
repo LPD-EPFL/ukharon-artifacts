@@ -17,15 +17,15 @@ RUN mkdir -p /etc/sudoers.d
 RUN echo 'user ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/user
 
 # Tools required for kernel compilation
-RUN apt-get -y install build-essential libncurses-dev gawk flex bison openssl \
+RUN apt-get update && apt-get -y install build-essential libncurses-dev gawk flex bison openssl \
     libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev \
     autoconf git wget
 
 # Build dependencies for kernel compilation
-RUN apt-get -y build-dep linux linux-signed
+RUN apt-get update && apt-get -y build-dep linux linux-signed
 
 # Generic tools
-RUN apt-get -y install file unzip zip xz-utils git cmake \
+RUN apt-get update && apt-get -y install file unzip zip xz-utils git cmake \
     python3 git tmux htop python3 python parallel vim tree psmisc
 
 RUN mkdir /opt/kernel
